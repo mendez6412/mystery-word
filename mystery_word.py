@@ -82,8 +82,8 @@ def is_word_complete(secret, guess):
 def game_over():
     ask = input("Do you want to play again? [Y]es or [N]o").lower()
     if ask == 'y':
-        guess_list = []
-        wrong_list = []
+        del guess_list[:]
+        del wrong_list[:]
         main()
     if ask == 'n':
         exit(0)
