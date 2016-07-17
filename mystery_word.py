@@ -96,6 +96,9 @@ def out_of_rounds(secret):
 def main():
     round_counter = 1
     difficulty = input("Play the game! [E]asy [N]ormal or [H]ard: ").upper()
+    if difficulty not in ['E', 'N', 'H']:
+        print("Please only enter 'E', 'N', or 'H'")
+        difficulty = input("Please only: [E]asy [N]ormal or [H]ard: ").upper()
     difficulty = select_list(difficulty)
     secret = random_word(difficulty)
     while round_counter < 9:
