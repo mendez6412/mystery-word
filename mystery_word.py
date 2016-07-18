@@ -37,6 +37,10 @@ def select_list(difficulty):
         return medium_words(word_list)
     if difficulty == 'H':
         return hard_words(word_list)
+    if difficulty not in ['E', 'N', 'H']:
+        print("Please only enter 'E', 'N', or 'H'")
+        dif = input("Please only: [E]asy [N]ormal or [H]ard: ").upper()
+        return select_list(dif)
 
 def random_word(difficulty):
     return random.choice(difficulty)
@@ -80,12 +84,12 @@ def is_word_complete(secret, guess):
     return True
 
 def game_over():
-    ask = input("Do you want to play again? [Y]es or [N]o").lower()
-    if ask == 'y':
+    ask = input("Do you want to play again? [Y]es or [N]o").upper()
+    if ask == 'Y':
         del guess_list[:]
         del wrong_list[:]
-        main()
-    if ask == 'n':
+        return True
+    if ask == 'N':
         exit(0)
     else:
         print("Please enter 'Y' or 'N'")
@@ -96,11 +100,9 @@ def out_of_rounds(secret):
 def main():
     round_counter = 1
     difficulty = input("Play the game! [E]asy [N]ormal or [H]ard: ").upper()
-    if difficulty not in ['E', 'N', 'H']:
-        print("Please only enter 'E', 'N', or 'H'")
-        difficulty = input("Please only: [E]asy [N]ormal or [H]ard: ").upper()
     difficulty = select_list(difficulty)
     secret = random_word(difficulty)
+    print(secret)
     while round_counter < 9:
         print("Round: ", round_counter)
         round_counter += 1
@@ -113,10 +115,12 @@ def main():
                 print(display_word(secret, guess_list))
         else:
             round_counter -= 1
+        print("Wrong Letters: ", wrong_list)
         if is_word_complete(secret, guess_list):
             print("You saved the hanging human!")
-            game_over()
-        print("Wrong Letters: ", wrong_list)
+            if game_over():
+                main()
+                break
     out_of_rounds(secret)
 
 if __name__ == "__main__":

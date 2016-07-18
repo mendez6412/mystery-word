@@ -85,17 +85,14 @@ def compare_display_to_board(a_tuple, board, guess):
     if board == []:
         for letter in list(a_tuple[0]):
             board.append(letter)
-        print("1")
     if list(a_tuple[0]) == list('-'*len(board)):
         print("You missed!")
-        print("2")
         wrong_guesses.append(guess)
     else:
         for idx, letter in enumerate(list(a_tuple[0])):
             if letter != board[idx]:
                 if board[idx] == '-':
                     board[idx] = letter
-        print("3")
     print(' '.join(board))
 
 def word_list_length(wrdlst):
@@ -130,6 +127,13 @@ def game_over():
 def out_of_rounds(secret):
     print("You ran out of rounds! The secret word was {}.".format(random.choice(length_word_list)))
 
+def try_again(user_input):
+    if user_input not in ['Y', 'N']:
+        try_again(input("Please, [Y] or [N]"))
+    return user_input == 'Y'
+
+
+
 def main():
     length = get_length()
     make_length_word_list(length)
@@ -156,6 +160,13 @@ def main():
         else:
             rounds += 1
     out_of_rounds(length_word_list)
+    if try_again(input("Want to try again? [Y]es or [N]o? ").upper()):
+        del guess_list[:]
+        del wrong_guesses[:]
+        del board[:]
+        main()
+    else:
+        exit(0)
 
 if __name__ == "__main__":
     main()
